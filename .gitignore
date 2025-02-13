@@ -22,4 +22,5 @@ gradle-app.setting
 .classpath
 
 # intellij
-.intellijPlatform
+/.idea/
+/bench/
