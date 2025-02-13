@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id("org.jetbrains.intellij.platform") version "2.2.1"
+}
+
+group 'pawrequest'
+version '0.0.1'
+
+repositories {
+    mavenCentral()
+
+    intellijPlatform {
+        defaultRepositories()
+    }
+}
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+dependencies {
+    intellijPlatform {
+        intellijIdeaCommunity("2024.3.3")
+        plugin("com.redhat.devtools.lsp4ij:0.10.0")
+    }
+
+}
+
+//processResources {
+//    from 'src/main/resources'
+//}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+}

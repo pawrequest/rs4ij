@@ -1,0 +1,31 @@
+<idea-plugin>
+  <id>pawrequest.rs4ij</id>
+  <name>RedScript4IntelliJ</name>
+  <vendor>pawrequest</vendor>
+
+  <description>
+    Adds support for redscript LSP integration via LSP4IJ.
+  </description>
+
+  <version>0.0.1</version>
+
+  <depends>com.redhat.devtools.lsp4ij</depends>
+
+  <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
+    <server id="RedscriptLanguageServerId"
+            name="RedscriptLanguageServer"
+            factoryClass="pawrequest.rs4ij.server.RedscriptLanguageServerFactory">
+      <description><![CDATA[
+        Some description written in HTML to display it in the LSP consoles view and Language Servers settings.
+        ]]>
+      </description>
+    </server>
+  </extensions>
+
+  <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
+    <fileNamePatternMapping patterns="*.reds"
+                            serverId="RedscriptLanguageServerId"
+                            languageId="reds"/>
+  </extensions>
+
+</idea-plugin>
