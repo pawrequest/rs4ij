@@ -11,17 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-//public class RedscriptLanguageServer extends OSProcessStreamConnectionProvider {
-//    public RedscriptLanguageServer(@NotNull Project project) {
-//        String executablePath = Objects.requireNonNull(getClass().getResource("/server/redscript-ide.exe")).getPath();
-//        GeneralCommandLine commandLine = new GeneralCommandLine(executablePath);
-////        GeneralCommandLine commandLine = new GeneralCommandLine("resources/server/redscript-ide.exe");
-//        super.setCommandLine(commandLine);
-//    }
-//}
-//
-
-
 public class RedscriptLanguageServer extends OSProcessStreamConnectionProvider {
     public RedscriptLanguageServer(@NotNull Project project) {
         try {
