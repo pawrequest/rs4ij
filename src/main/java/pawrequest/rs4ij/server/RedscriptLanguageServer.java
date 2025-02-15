@@ -2,13 +2,17 @@ package pawrequest.rs4ij.server;
 
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.redhat.devtools.lsp4ij.server.OSProcessStreamConnectionProvider;
+import org.eclipse.lsp4j.InitializeParams;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RedscriptLanguageServer extends OSProcessStreamConnectionProvider {
@@ -33,12 +37,19 @@ public class RedscriptLanguageServer extends OSProcessStreamConnectionProvider {
 
             // Start LSP
             GeneralCommandLine commandLine = new GeneralCommandLine(tempFile.getAbsolutePath());
-            String gameDirJson = "{\"game_dir\": \"D:/GAMES/Cyberpunk 2077\"}";
-            commandLine.addParameters("--init", gameDirJson);
             super.setCommandLine(commandLine);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Object getInitializationOptions(VirtualFile rootUri) {
+        Map<String, Object> options = new HashMap<>();
+        options.put("ui.semanticTokens", true); // Existing option
+        options.put("game_dir", "D:/GAMES/Cyberpunk 2077"); // Add game_dir
+        return options;
+    }
+
 }
