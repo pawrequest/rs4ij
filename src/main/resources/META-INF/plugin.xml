@@ -9,6 +9,8 @@
 
   <version>0.0.1</version>
 
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.lang</depends>
   <depends>com.redhat.devtools.lsp4ij</depends>
 
   <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
@@ -16,7 +18,7 @@
             name="RedscriptLanguageServer"
             factoryClass="pawrequest.rs4ij.server.RedscriptLanguageServerFactory">
       <description><![CDATA[
-        Some description written in HTML to display it in the LSP consoles view and Language Servers settings.
+        RedScript4IJ language server
         ]]>
       </description>
     </server>
