@@ -3,8 +3,7 @@ package pawrequest.rs4ij.settings;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
-import org.jetbrains.annotations.Nullable;
-import pawrequest.rs4ij.server.RedscriptLanguageServer;
+import com.intellij.openapi.project.ex.ProjectManagerEx;
 
 import javax.swing.*;
 
@@ -35,28 +34,16 @@ public class RedscriptConfigurable implements Configurable {
         RedscriptSettings settings = RedscriptSettings.getInstance();
         String oldGameDir = settings.getGameDir();
         String newGameDir = mySettingsComponent.getGameDir();
-
-        // Save the new game directory
         settings.setGameDir(newGameDir);
 
-        // Restart the LSP server if the game directory has changed
         if (!newGameDir.equals(oldGameDir)) {
-            restartLspServer();
+            reloadProject();
         }
     }
 
-
-
-//    @Override
-//    public void apply() {
-//        RedscriptSettings settings = RedscriptSettings.getInstance();
-//        settings.setGameDir(mySettingsComponent.getGameDir());
-//    }
-
-    private void restartLspServer() {
-        // Iterate over all open projects and restart the LSP server for each one
+    private void reloadProject() {
         for (Project project : ProjectManager.getInstance().getOpenProjects()) {
-            RedscriptLanguageServer.restartServer(project);
+            ProjectManagerEx.getInstance().reloadProject(project);
         }
     }
 

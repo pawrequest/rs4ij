@@ -35,7 +35,6 @@
   <extensions defaultExtensionNs="com.intellij">
     <applicationConfigurable parentId="tools" instance="pawrequest.rs4ij.settings.RedscriptConfigurable" id="redscript" displayName="Redscript"/>
     <applicationService serviceImplementation="pawrequest.rs4ij.settings.RedscriptSettings"/>
-    <serverDefinition implementationClass="pawrequest.rs4ij.server.RedscriptLanguageServer" id="redscript" displayName="Redscript Language Server"/>
   </extensions>
 
 

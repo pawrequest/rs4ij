@@ -1,13 +1,10 @@
 package pawrequest.rs4ij.server;
 
 import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.redhat.devtools.lsp4ij.LanguageServerWrapper;
-import com.redhat.devtools.lsp4ij.LanguageServersRegistry;
 import com.redhat.devtools.lsp4ij.server.OSProcessStreamConnectionProvider;
-import com.redhat.devtools.lsp4ij.server.definition.LanguageServerDefinition;
-import org.eclipse.lsp4j.InitializeParams;
 import org.jetbrains.annotations.NotNull;
 import pawrequest.rs4ij.settings.RedscriptSettings;
 
@@ -16,7 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -53,42 +49,13 @@ public class RedscriptLanguageServer extends OSProcessStreamConnectionProvider {
     @Override
     public Object getInitializationOptions(VirtualFile rootUri) {
         RedscriptSettings settings = RedscriptSettings.getInstance();
-        String gameDir = settings.getGameDir();
 
         Map<String, Object> options = new HashMap<>();
         options.put("ui.semanticTokens", true); // Existing option
-//        options.put("game_dir", "D:/GAMES/Cyberpunk 2077"); // Add game_dir
-
-        options.put("game_dir", gameDir); // Use user-configured game_dir
+        options.put("game_dir", settings.getGameDir()); // Use user-configured game_dir
         return options;
     }
 
-
-
-
-    public static void restartServer(@NotNull Project project) {
-        // Restart the server directly
-        LanguageServersRegistry.getInstance()
-                .getServerDefinition("redscript") // Use the ID of your server definition
-                .getLanguageServerWrappers(project) // Get the wrappers for the project
-                .forEach(LanguageServerWrapper::restart); // Restart each wrapper
-    }
-
-//    public static void restartServer(@NotNull Project project) {
-//        // Get the server definition for RedscriptLanguageServer
-//        LanguageServerDefinition serverDefinition = LanguageServersRegistry.getInstance()
-//                .getServerDefinition("redscript"); // Use the ID of your server definition
-//
-//        if (serverDefinition != null) {
-//            // Find the LanguageServerWrapper for this server definition and project
-//            List<LanguageServerWrapper> wrappers = LanguageServersRegistry.getInstance()
-//                    .findLanguageServerWrappers(project, serverDefinition);
-//
-//            // Restart each wrapper (typically there should be only one)
-//            for (LanguageServerWrapper wrapper : wrappers) {
-//                wrapper.restart();
-//            }
-//        }
-//    }
-
 }
+
+
