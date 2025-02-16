@@ -26,9 +26,6 @@ dependencies {
 
 }
 
-//processResources {
-//    from 'src/main/resources'
-//}
 
 sourceSets {
     main {
