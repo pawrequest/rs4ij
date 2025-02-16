@@ -6,6 +6,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.redhat.devtools.lsp4ij.server.OSProcessStreamConnectionProvider;
 import org.eclipse.lsp4j.InitializeParams;
 import org.jetbrains.annotations.NotNull;
+import pawrequest.rs4ij.settings.RedscriptSettings;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,12 +45,25 @@ public class RedscriptLanguageServer extends OSProcessStreamConnectionProvider {
         }
     }
 
+
     @Override
     public Object getInitializationOptions(VirtualFile rootUri) {
+        RedscriptSettings settings = RedscriptSettings.getInstance();
+        String gameDir = settings.getGameDir();
+
         Map<String, Object> options = new HashMap<>();
         options.put("ui.semanticTokens", true); // Existing option
-        options.put("game_dir", "D:/GAMES/Cyberpunk 2077"); // Add game_dir
+//        options.put("game_dir", "D:/GAMES/Cyberpunk 2077"); // Add game_dir
+
+        options.put("game_dir", gameDir); // Use user-configured game_dir
         return options;
     }
+//    @Override
+//    public Object getInitializationOptions(VirtualFile rootUri) {
+//        Map<String, Object> options = new HashMap<>();
+//        options.put("ui.semanticTokens", true); // Existing option
+//        options.put("game_dir", "D:/GAMES/Cyberpunk 2077"); // Add game_dir
+//        return options;
+//    }
 
 }
