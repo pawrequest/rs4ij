@@ -16,7 +16,7 @@ public class RedscriptSettings implements PersistentStateComponent<RedscriptSett
     private State myState = new State();
 
     public static class State {
-        public String gameDir = "D:/GAMES/Cyberpunk 2077";
+        public String gameDir = "";
     }
 
     @Nullable
