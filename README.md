@@ -16,7 +16,7 @@ Stage1: mimic/port [vscode_extension](https://github.com/jac3km4/redscript-ide-v
 - [ ] Textmate Syntax Highlighting via [redscript syntx highlighting](https://github.com/jackhumbert/redscript-syntax-highlighting)  
 - [ ] Debugging via [redscript DAP](https://github.com/jac3km4/redscript-dap)  
 - [ ] Integrate  RedHotReload via [RedHotTools](https://github.com/psiberx/cp2077-red-hot-tools)
-- [ ] Target multiple IDEs
+- [x] Target multiple IDEs - IDEA and Pycharm 2024.3.3 working
 
 
 nb. i dont have a clue what i'm doing. use at your own risk.
