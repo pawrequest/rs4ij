@@ -7,7 +7,7 @@
     Adds support for redscript LSP integration via LSP4IJ and redscript-ide.
   </description>
 
-  <version>0.0.1</version>
+  <version>0.0.2</version>
 
   <depends>com.intellij.modules.platform</depends>
   <depends>com.intellij.modules.lang</depends>
@@ -30,17 +30,10 @@
                             languageId="reds"/>
   </extensions>
 
-
-
   <extensions defaultExtensionNs="com.intellij">
     <applicationConfigurable parentId="tools" instance="pawrequest.rs4ij.settings.RedscriptConfigurable" id="redscript" displayName="Redscript"/>
     <applicationService serviceImplementation="pawrequest.rs4ij.settings.RedscriptSettings"/>
   </extensions>
 
-
-  <extensions defaultExtensionNs="com.intellij">
-    <applicationConfigurable parentId="tools" instance="pawrequest.rs4ij.settings.RedscriptConfigurable" id="redscript" displayName="Redscript"/>
-    <applicationService serviceImplementation="pawrequest.rs4ij.settings.RedscriptSettings"/>
-  </extensions>
 
 </idea-plugin>
