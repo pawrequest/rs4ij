@@ -18,9 +18,8 @@ public class GitHubReleaseFetcher {
     }
 
     public File fetch_binary(URL download_url) throws IOException, URISyntaxException {
-        File tempFile = getTemporaryFile(download_url);
         System.out.println("Downloading Binary from: " + download_url);
-        System.out.println("Downloading Binary to: " + tempFile);
+        File tempFile = getTemporaryFile(download_url);
         HttpURLConnection connection = getHttpURLConnection(download_url);
         copy_filestream(connection, tempFile);
         set_exe(tempFile);

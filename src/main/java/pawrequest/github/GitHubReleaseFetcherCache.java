@@ -11,10 +11,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
-public class CachedGitHubReleaseFetcher extends GitHubReleaseFetcher {
+public class GitHubReleaseFetcherCache extends GitHubReleaseFetcher {
     public final Path cache_dir;
 
-    public CachedGitHubReleaseFetcher(Path cache_dir, URI releaseURI) {
+    public GitHubReleaseFetcherCache(Path cache_dir, URI releaseURI) {
         super(releaseURI);
         this.cache_dir = cache_dir;
 
@@ -35,12 +35,12 @@ public class CachedGitHubReleaseFetcher extends GitHubReleaseFetcher {
             System.out.println("Cached Binary Exists: " + cachedBinary);
             return cachedBinary;
         }
-
         System.out.println("Cached Binary Does Not Exist: " + cachedBinary);
-        System.out.println("Downloading Binary from: " + binary_url);
         File Binary = super.fetch_binary(binary_url);
+        System.out.println("Caching Binary to: " + cachedBinary);
         Files.createDirectories(cache_dir);
         Files.copy(Binary.toPath(), cachedBinary.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
         return cachedBinary;
     }
 

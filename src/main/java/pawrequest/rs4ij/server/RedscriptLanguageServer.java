@@ -5,7 +5,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.redhat.devtools.lsp4ij.server.OSProcessStreamConnectionProvider;
 import org.jetbrains.annotations.NotNull;
-import pawrequest.github.CachedGitHubReleaseFetcher;
+import pawrequest.github.GitHubReleaseFetcherCache;
 import pawrequest.rs4ij.settings.RedscriptSettings;
 
 import java.io.File;
@@ -30,16 +30,16 @@ public class RedscriptLanguageServer extends OSProcessStreamConnectionProvider {
 //             GET LATEST RELEASE
 //            RedscriptIDEGitHubRelease latestRelease = RedscriptIDEGitHubRelease.latestRelease();
 //            System.out.println("Release Tag name: " + latestRelease.tag_name);
-//            URI binary_uri = latestRelease.latest_platform_binary_uri();
+//            URI binary_uri = latestRelease.platform_binary_latest();
 //            System.out.println("Latest Binary URI: " + binary_uri);
-
+//
 //            GET CURRENT RELEASE
             URI binary_uri = RedscriptIDEGitHubRelease.platform_binary_current();
             System.out.println("Binary URI: " + binary_uri);
 
 
 //            check cache for binary else download
-            CachedGitHubReleaseFetcher fetcher = new CachedGitHubReleaseFetcher(cacheDir, binary_uri);
+            GitHubReleaseFetcherCache fetcher = new GitHubReleaseFetcherCache(cacheDir, binary_uri);
             File binaryFile = fetcher.fetch_binary(binary_uri.toURL());
 
             GeneralCommandLine commandLine = new GeneralCommandLine(binaryFile.getAbsolutePath());
