@@ -1,17 +1,19 @@
 package pawrequest.rs4ij.server;
 
 import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.redhat.devtools.lsp4ij.server.OSProcessStreamConnectionProvider;
 import org.jetbrains.annotations.NotNull;
+import pawrequest.github.CachedGitHubReleaseFetcher;
 import pawrequest.rs4ij.settings.RedscriptSettings;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,29 +21,33 @@ import java.util.Map;
 public class RedscriptLanguageServer extends OSProcessStreamConnectionProvider {
     public RedscriptLanguageServer(@NotNull Project project) {
         try {
-            // Load and store redscript-ide.exe
-            InputStream inputStream = getClass().getResourceAsStream("/language/redscript-ide.exe");
-            if (inputStream == null) {
-                throw new IOException("Executable not found in resources.");
-            }
-            File tempFile = File.createTempFile("redscript-ide", ".exe");
-            tempFile.deleteOnExit();
+            Path cacheDir = Paths.get(System.getProperty("user.home"), ".redscript-ide");
+            System.out.println("Cache Dir: " + cacheDir);
+            //
+            String platform_binary_name = RedscriptIDEGitHubRelease.platformBinaryName();
+            System.out.println("Platform Binary Name: " + platform_binary_name);
 
-            // Write the InputStream to the temporary file
-            try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-            }
+//             GET LATEST RELEASE
+//            RedscriptIDEGitHubRelease latestRelease = RedscriptIDEGitHubRelease.latestRelease();
+//            System.out.println("Release Tag name: " + latestRelease.tag_name);
+//            URI binary_uri = latestRelease.latest_platform_binary_uri();
+//            System.out.println("Latest Binary URI: " + binary_uri);
 
-            // Start LSP
-            GeneralCommandLine commandLine = new GeneralCommandLine(tempFile.getAbsolutePath());
+//            GET CURRENT RELEASE
+            URI binary_uri = RedscriptIDEGitHubRelease.platform_binary_current();
+            System.out.println("Binary URI: " + binary_uri);
+
+
+//            check cache for binary else download
+            CachedGitHubReleaseFetcher fetcher = new CachedGitHubReleaseFetcher(cacheDir, binary_uri);
+            File binaryFile = fetcher.fetch_binary(binary_uri.toURL());
+
+            GeneralCommandLine commandLine = new GeneralCommandLine(binaryFile.getAbsolutePath());
             super.setCommandLine(commandLine);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | URISyntaxException e) {
+
+            throw new RuntimeException(e);
         }
     }
 
@@ -51,8 +57,8 @@ public class RedscriptLanguageServer extends OSProcessStreamConnectionProvider {
         RedscriptSettings settings = RedscriptSettings.getInstance();
 
         Map<String, Object> options = new HashMap<>();
-        options.put("ui.semanticTokens", true); // Existing option
-        options.put("game_dir", settings.getGameDir()); // Use user-configured game_dir
+        options.put("ui.semanticTokens", true);
+        options.put("game_dir", settings.getGameDir());
         return options;
     }
 
